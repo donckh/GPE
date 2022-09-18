@@ -1,0 +1,42 @@
+/* Accept by UVA 10533: Digit Primes
+Question: find prime num that sum of every digit also prime number
+1. initial num(check prime num), prime(accumulate digit primes)
+2. if prime num find, also check whether it is digit primes
+3. output accumulate digit primes inclusively.
+*/
+#include <iostream>
+#define MAX 1000001
+int num[MAX]={0};
+int prime[MAX]={0};
+
+int main(){
+    num[0]=num[1]=1;
+    for(int i=2;i<MAX;++i){  //go through 2 to MAX
+        if(num[i]==0){ //prime num
+            for(int j=i+i; j<MAX; j+=i){  // remove non prime num
+                num[j]=1;  //1: non prime num
+            }
+            int sum=0, temp=i;
+            while(temp>0){  //check digit prime
+                sum+=temp%10;
+                temp/=10;
+            }
+            if(num[sum]==0) prime[i]=prime[i-1]+1; //if digit prime, accumulate +1
+            else prime[i]=prime[i-1]; //else accumulate = previous one
+        }
+        else{
+            prime[i]=prime[i-1]; //else accumulate = previous one
+        }
+    }
+    int test, start, end;
+    // scanf("%d", &test);
+    while(scanf("%d", &test) !=EOF){  // check any more test case
+        while(test){  //if test>0
+            scanf("%d %d", &start, &end);
+            printf("%d\n", prime[end]-prime[start-1]);  
+            //start-1: inclusive, end:accumulate prime from 0 to end(iunclusive)
+            --test;
+        }
+    }
+    return 0;
+}
