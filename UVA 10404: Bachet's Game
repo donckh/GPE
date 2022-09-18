@@ -1,0 +1,39 @@
+/* Accept by UVA 10404	Bachet's Game
+Question: given num of stones n, m possible way for pick stones, output who will wins
+1. set vector of every num of stones to save result
+2. set pick vector
+3. if num of stones = num of pick --> wins
+4. check if pick num of stones will lead always wins state(previous no stone left case)?
+*/
+#include <iostream>
+#include <string.h>
+using namespace std;
+#define N 1000005
+int dp[N], pick[11];
+int main(){
+    char line[100];
+    int start, m, n;
+    while(scanf("%d %d", &n, &m)==2){  //return 2, otherwise exit loop
+        memset(dp, 0, sizeof(dp));
+        memset(pick, 0, sizeof(pick));
+        for (int j=0;j<m;j++){
+            scanf("%d", &pick[j]);
+        }
+        for (int i=1; i<=n;i++){
+            for (int j = 0; j < m; j++) {  //try pick different m
+                if(i-pick[j]>=0 && !dp[i-pick[j]]) {  
+                    dp[i] = 1;
+                    break;
+                    /*  dp[i-pick[j]: if previous dp[i-pick[j] always lose, then dp[i] always win
+                     e.g.: 20 3, 1 3 8
+                     i=pick[j]=1: 1-1=0, dp[1-1]=0 =>dp[1]=1, imply take 1 will win
+                     i=2, pick[j]=1: 2-1=1 > 0, dp[2-1]=1 => dp[2]=0  Always Lose
+                     i=3, pick[j]=1: 3-1=1 > 0, dp[3-1]=0 => dp[3]=1  still can take stone and not AL
+                     i=3, pick[j]=3: 3-3=0 = 0, dp[3-3]=0 => dp[3]=1*/
+                }
+            }
+        }
+        printf("%s\n", dp[n] ? "Stan wins" : "Ollie wins"); //1: Stan wins
+    }
+    return 0;
+}
