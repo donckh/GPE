@@ -1,0 +1,96 @@
+/* Accept by UVA 10182: Bee Maja
+Question: convert Willi corrdnate to Maja one, num to (x,y).
+1. check start point: (x,0)
+2. output result if n exactly at start point
+3. create cycle function in sequence, loop cycle according the num of cycle and minus total num n
+4. output result
+*/
+#include <stdio.h>
+int px, py;
+void f1()  //start point (x,0) and left
+{
+	px--;
+	py++;
+}
+void f2()  //left
+{
+	px--;
+}
+void f3()  //up
+{
+	py--;
+} 
+void f4()  //right
+{
+	px++;
+	py--;
+}
+void f5()  //right
+{
+	px++;
+}
+void f6() //down
+{
+	py++;
+}
+int main()
+{
+	int n, sum, pw, t;
+	while(scanf("%d", &n)!=EOF)
+	{
+		sum=0;pw=0;  //sum: num of coordinate, pw: layer of cycle
+		while(sum<n)  // find the cycle of n locate, e.g.: n=22
+		{
+			pw++;  //how many cycle, pw=3
+			sum+=pw*6;  // num of coordinate, sum=36
+		}
+		
+		sum-=pw*6;  // sum: start point of this cycle, sum=18
+		n=n-sum;  // n: calculate the steps from start point, n=4
+		if(n==1)
+			printf("%d 0\n", pw-1);  // n=1 start point of every cycle
+		else{
+			px=pw; //start point: x=pw cycle, y=0
+			py=0;
+			n--;  // n==1 already count, n=3
+			for(int i=0; i<pw && n; ++i)
+			{
+				n--;
+				f1(); //px--;py++;
+			}
+				
+			for(int i=0; i<pw && n; ++i)
+			{
+				n--;
+				f2();
+			}
+				
+			for(int i=0; i<pw && n; ++i)
+			{
+				n--;
+				f3();
+			}
+				
+			for(int i=0; i<pw && n; ++i)
+			{
+				n--;
+				f4();
+			}
+				
+			for(int i=0; i<pw && n; ++i)
+			{
+				n--;
+				f5();
+			}
+				
+			for(int i=0; i<pw && n; ++i)
+			{
+				n--;
+				f6();
+			}
+				
+			printf("%d %d\n", px, py);
+		}
+	}
+	return 0;
+}
