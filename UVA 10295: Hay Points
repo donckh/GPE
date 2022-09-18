@@ -1,0 +1,39 @@
+/* Accept by UVA 10295 	Hay Points
+1. cin word of credit and test case num
+2. input test case and check "." and any credit of word
+3. output result
+### use cin for string is better than scanf char array
+*/
+#include <iostream>
+#include <map>
+#include <string>
+using namespace std;
+int main(){
+    int word, test, point;
+    string temp;
+    while(cin >> word >> test){
+        map <string, int> hay;
+        while(word){
+            cin >> temp >> point;
+            hay[temp] = point;
+            //printf("%s %d\n", temp, hay[temp]);
+            --word;
+        }
+        int value=0;
+        while(test){
+            cin >> temp;
+            //printf("%s ", temp);
+            if (temp == ".") {
+                --test;
+                printf("%d\n", value);
+                value=0;
+            }
+            else if(hay.find(temp)!=hay.end()){ //or hay[temp] return false if no map
+                value+=hay[temp];
+                //printf("%s %d %d\n", temp, hay[temp], value);
+            }
+            
+        }
+    }
+    return 0;
+}
