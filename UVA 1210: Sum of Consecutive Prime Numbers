@@ -1,0 +1,39 @@
+/*Accept by UVA 1210: Sum of Consecutive Prime Numbers
+Question: find continuous prime num, sum them together, check how many combination of prime can all num have.
+1. find prime num
+2. mark all prime num in vector
+3. accumulate prime num in seq
+4. +1 count of prime combination according to sum
+*/
+#include <stdio.h>
+#include <vector>
+using namespace std;
+int num[10001][2]={0};
+
+int main(){
+    vector<int> prime;
+    for (int i=2; i<=10000; i++){
+        if(num[i][1] == 0){
+            prime.push_back(i);
+            for(int j=i+i;j<=10000; j+=i){
+                num[j][1] = 1; //1: non prime num
+            }
+        }
+    }
+    //sum of continue prime num: +1
+    for (int i=0;i<prime.size();++i){
+        num[prime[i]][2] += 1;
+        int sum = prime[i];
+        for(int j=i+1; j<prime.size(); ++j){
+            sum += prime[j];
+            if (sum>10000) break;
+            num[sum][2] += 1;
+        }
+    }
+    int input;
+    while(scanf("%d", &input)){
+        if(input==0) break;
+        printf("%d\n", num[input][2]);
+    }
+    return 0;
+}
