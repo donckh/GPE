@@ -1,0 +1,33 @@
+/* Accept by UVA 10220: I Love Big Numbers !
+Question: Suppose the number is 5.You first calculate 5!=120, then find sum of the digits 1+2+0=3.
+1. create 2 array, 1 for ans, 1 for num, initial 0 and 1 if necessary.
+2. start from 2, we need 2x1, so that we initial num[0]=1, mem[1]=1
+3. if num[j] > 10, put extra num to j+1.
+4. accumulate num and save to ans array
+*/
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+int main(){
+  int mem[1005] = {1, 1};  //initial 0 and 1
+  int num[3000] = {1}, digits = 1;
+  for( int i = 2 ; i <= 1000 ; ++i ){
+    for( int j = 0 ; j < digits ; ++j ){
+      num[j] *= i;  //num[j] = previous ans: 1x2, 2x3,...
+    }
+    for( int j = 0 ; j < digits ; ++j ){  //how many digits of num
+      num[j+1] += num[j] / 10; //進位
+      if( j + 1 >= digits && num[j+1] > 0 ) ++digits; //if [j+1] >0, 1 more digit
+
+      num[j] %= 10;  //剩餘個位
+      mem[i] += num[j];  //sum every digit together
+    }  
+  }
+
+  int n;
+  while( scanf("%d", &n) != EOF ){
+    printf("%d\n", mem[n]);
+  }
+  return 0;
+}
