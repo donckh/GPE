@@ -1,0 +1,38 @@
+/* Accept by UVA 11286: Conformity
+Question: find the most popular combination of 5 courses(present by number)
+1. combine 5 course num as long long int
+2. using map function to count the number of combination
+3. output the most popular one using map<LL,int>::iterator
+4. if we have multiple popular courses, sum them together and output the number
+*/
+#include <iostream>
+#include <algorithm>
+#include <math.h>
+#include <map>
+using namespace std;
+typedef long long LL;
+int main(){
+	int test, course[5];
+	while(scanf("%d", &test) && test>0){
+		int max_value=1, count=0;
+		map <LL, int> course_map;
+		while(test>0){
+			for(int i=4;i>=0;--i){
+				scanf("%d", &course[i]);
+			}
+			sort(course, course+5);
+			LL course_sum=0;
+			for(int i=4;i>=0;--i){
+				course_sum += course[i] * pow(1000, i);
+			}
+			course_map[course_sum] +=1;
+			max_value = max(max_value, course_map[course_sum]);
+			--test;
+		}
+		for(map<LL,int>::iterator it=course_map.begin();it!=course_map.end();++it){
+			if(it->second==max_value) count += max_value;
+		}
+		printf("%d\n", count);
+	}
+	return 0;
+}
