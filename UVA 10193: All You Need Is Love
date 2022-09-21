@@ -1,0 +1,55 @@
+/* Accept by UVA 10193: All You Need Is Love
+Question: Find the "common" string from two string S1 and S2, if N times common string can build both string, Love. otherwise not Love
+1. convert binary string to decimal
+2. find 公因數 for that
+3. if it have 公因數, then Love. Otherwise not Love
+*/
+#include <iostream>
+#include <string.h>
+#include <stdlib.h>
+#include <cmath>
+using namespace std;
+
+int main(){
+    int test, dig, pair=1;
+    char s1[100], s2[100];
+    scanf("%d", &test);
+    while(test--){
+        int num1 = 0, num2 = 0;
+        scanf("%s", &s1);
+        scanf("%s", &s2);
+        //printf("%d ", strlen(s1));
+        //printf("%c", s1[0]);
+        for(int i=0; i< strlen(s1);++i){
+            //printf("%d\n", dig);
+            dig = s1[i] - '0';
+            num1 += dig * pow(2,  strlen(s1)-i-1);  //conevert to decimal
+        }
+        //printf("%d ", num1);
+        for(int i=0; i<strlen(s2);++i){
+            dig = s2[i] - '0';
+            num2 += dig * pow(2, strlen(s2)-i-1);  //conevert to decimal
+        }
+        if (num2>num1){//因為要用輾轉相除法, 所以先找到比較大的數 
+            dig = num1;
+            num1 = num2;
+            num2 = dig;
+        }
+        do{  //利用輾轉相除法找公因數 
+            dig = num1 % num2;  //large num divide by small number; 再用小餘數 除 大餘數, 直到其中一邊餘數為 0 或 1
+            num1 = num2;
+            num2 = dig;
+        }while(dig != 0 && dig != 1);  //若餘數為0表示有公因數, 若為1表示兩數互質 
+
+        if(dig == 0){
+            printf("Pair #%d: All you need is love!\n", pair);
+        }
+        else{
+            printf("Pair #%d: Love is not all you need!\n", pair);
+        }
+        //--test;
+        ++pair;
+    }
+
+    return 0;
+}
