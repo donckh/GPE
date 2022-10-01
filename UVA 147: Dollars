@@ -1,0 +1,31 @@
+/* Accepted by UVA 147: Dollars
+Question: find the different combination of giving amount of money.
+1. create dp table with initial[0]=1
+2. as there is no float for array index, multiple 100 as the size of dp table
+3. 2 for loop: 1 for type of money, 2 for dp index
+4. accumulate dp table value by dp[j] += dp[j-money[i]]
+*/
+
+#include<stdio.h>
+
+int main()
+{
+    long long dp[30005] = {1};  //$300 ->30000 (for convenient*100), dp[0]=1, the rest=0
+    long long money[15] = { 5, 10, 20, 50, 
+                               100, 200, 500, 
+                               1000, 2000, 5000, 
+                               10000};
+    int i, j;
+    for( i = 0 ; i < 11 ; i++ )  //10 currency
+        for( j = money[i] ; j <= 30000 ; j++ )
+            dp[j] += dp[j-money[i]];
+    /* dp table example for understanding
+    dp[5]=dp[5]+dp[0]=0+1=1, dp[10]=dp[10]+dp[10-5]=1 & dp[10]=dp[10]+dp[10-10]=1+1 = 2
+    dp[15]=dp[15]+dp[15-5]=0+1, dp[15]=dp[15]+dp[15-10]=1+1=2
+    dp[20]=dp[20]+dp[20-5]=1, dp[20]=dp[20]+dp[20-10]=1+2=3, dp[20]=dp[20]+dp[20-20]=3+1=4 */
+    int money1, money2;
+    while( scanf( "%d.%d", &money1, &money2 ) != EOF && !( money1 == 0 && money2 == 0 ) )
+        printf( "%3d.%02d%17lld\n", money1, money2, dp[money1*100+money2] );
+
+    return 0;
+}
