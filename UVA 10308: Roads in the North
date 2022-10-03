@@ -1,0 +1,57 @@
+/* Accepted by UVA 10308: Roads in the North
+Question: find the longest path for the given graph.
+1. use gets to check char is blank line or not, if it is, continue next test case.
+2. use gets to check remaining input for this test case.
+3. use struct {int, int} combine with vector for store each path.
+4. use DFS to go through the path begin with 1.
+5. In DFS, save the route length (to max) when the path finally return to itself, then go to another path.
+6. start from node 1 to -1(mean end of iteration).
+*/
+#include <bits/stdc++.h>
+using namespace std;
+struct nodes{
+    int node;
+    int len;
+};
+int ans;
+vector<nodes> vil[10001];
+
+void input(char line[]){
+    int node1, node2, path;
+    sscanf(line, "%d %d %d", &node1, &node2, &path);
+    vil[node1].push_back({node2, path});  //create path from node1 to node2
+    vil[node2].push_back({node1, path});  //bidirection
+}
+
+int DFS(int node1, int node2){
+    int max=0;
+    for(auto &i: vil[node1]){
+        if (i.node==node2) continue;  //if the path goes back node2 continue(as previous i.len already already take)
+        int route = DFS(i.node, node1) + i.len;  //save route start from itself and end by itself. (go through a loop already)
+        if (ans< route+max) ans = route+max;
+        if (max< route) max = route;  // save/select max route.
+    }
+    return max;
+}
+
+int main(){
+    int v1, v2, dis;
+    char line[100];
+    while(gets(line)){
+        if (line[0]=='\0') continue;
+        for(auto &i: vil) i.clear();
+        input(line);
+        while (gets(line))
+        {
+            if (line[0]=='\0') break;
+            input(line);
+        }
+        // for(auto &i: vil) {
+        //     for(auto &j: i) printf("%d\n", j.len);
+        // }
+        ans=0;
+        DFS(1,-1);
+        printf("%d\n", ans);
+    }
+    return 0;
+}
