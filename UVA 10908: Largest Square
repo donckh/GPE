@@ -1,0 +1,46 @@
+/* Accepted by UVA 10908: Largest Square
+Question: find the largest square contain the same char by givening center of char.
+1. check square center row from center-1 to center +1
+2. check square center column from center-1 to center +1
+3. if char not equal, break and return ans base how large row/col already check. 
+*/
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+char square[100][100];  //[H][W]
+
+int main(){
+    int test_case, M, N, Q, r, c;
+    int ans, loc;
+    scanf("%d", &test_case);
+    for (int i=0; i<test_case; i++)
+    {        
+        scanf("%d %d %d", &M, &N, &Q);
+        printf("%d %d %d\n", M, N, Q);
+        for (int j=0; j<M; j++){
+            scanf("%s", &square[j]);
+        }
+        for (int k=0; k<Q; k++){
+            scanf( "%d %d", &r, &c);
+            ans = 1, loc=0;
+            while(true){
+                ++loc;
+                if (r-loc<0 || c-loc<0 || r+loc>=M || c+loc>=N) break;  //if row/column to be check exist limit, break
+                int flag = 1;
+                for(int row=r-loc; row<=r+loc && flag;row++){  //check square size in row repeatly
+                    for(int col=c-loc; col<=c+loc  && flag;col++){  //check square size in col repeatly
+                        if (square[r][c]!=square[row][col]) {  //if find any not equal char, break.
+                            flag = 0;
+                            break;
+                        }
+                    }
+                }
+                if (flag) ans = loc+loc+1;  //update square size ans if find
+                else break;
+            }
+            printf("%d\n", ans);
+        }
+    }
+    return 0;
+}
