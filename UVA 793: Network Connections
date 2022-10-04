@@ -1,0 +1,47 @@
+/* Accepted by UVA 793: Network Connections
+Question: providing computer connection graph, check two computer whether is connect or not
+1. check eof, print "\n" after each testcase num
+2. initialize vector for each computer and their group
+3. stringstream input req computer 1 and 2
+4.if req=="c", check all the computer belong to computer 1 and computer 2 group
+5. group them together as min group num
+6.if req=="q", check the computer 1 and computer 2 belong to the same group or not
+*/
+#include <iostream>
+#include <sstream>
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+int main(){
+    int test;
+    while(scanf("%d", &test) !=EOF){
+        for (int i=0;i<test;++i){
+            if (i>0) printf("\n");  //presentation format need to add \n after 1st input testcase
+            int computer, ans1=0, ans2=0, c1, c2;
+            string req, line;
+            scanf("%d", &computer);
+            vector<int> connect(computer+1);
+            for (int i=1; i<=computer;++i) connect[i]=i;            
+
+            cin.ignore();
+            while(getline(cin, line) && line!=""){
+                stringstream ss(line);
+                ss >> req >> c1 >> c2;
+                int group1=connect[c1], group2=connect[c2];
+                if (req=="c")
+                {
+                    for(int i=1; i<=computer;++i){
+                        if(connect[i]==group1 || connect[i]==group2) // make connected[i] as group num, take from the smallest computer
+                            connect[i]=min(group1, group2);  // e.g. c 1 5, connect[1] = connect[5] = 1
+                    }
+                }else if(req=="q"){
+                    if (connect[c1] == connect[c2]) ++ans1;
+                    else ++ans2;
+                }
+            }
+            printf("%d,%d\n", ans1, ans2);
+        }
+    }
+    return 0;
+}
