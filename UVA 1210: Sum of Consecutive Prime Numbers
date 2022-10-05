@@ -1,5 +1,5 @@
 /*Accept by UVA 1210: Sum of Consecutive Prime Numbers
-Question: find continuous prime num, sum them together, check how many combination of prime can all num have.
+Question: find continuous prime num, sum them together, check how many combination of the sum prime can have.
 1. find prime num
 2. mark all prime num in vector
 3. accumulate prime num in seq
