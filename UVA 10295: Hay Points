@@ -1,4 +1,5 @@
 /* Accept by UVA 10295 	Hay Points
+Question: given point of each word, calculate the total points of m line of sentences
 1. cin word of credit and test case num
 2. input test case and check "." and any credit of word
 3. output result
