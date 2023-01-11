@@ -42,6 +42,50 @@ UVa 10465 Homer Simpson
 
 
 
+5/10/2022:
+
+Nth smallest element from 2 arrays
+
+10567: Common Permutation UVa10252 
+
+10429:Contest Scoreboard
+
+10038:Disk Tree
+
+2008-19: Set partition  
+
+10615:Divisibility
+
+
+
+19/10/2022:
+
+10422: Is This Integration ?  
+
+24941:Uncompress
+
+10655:Sumsets
+
+2015-07:Minimum Path Sum
+
+10535:Prime Distance
+
+
+
+22/11/2022:
+
+Power Crisis
+
+The Jackpot
+
+Bit Mask
+
+An Easy Problem
+
+The Trip
+
+
+
 GPE helper(for history question records):
 
 https://gpe-helper.setsal.dev/problems
