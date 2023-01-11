@@ -1,5 +1,5 @@
 # GPE
-Here is record for GPE code which mainly selected from UVA, all posted code was accepted by judge system:
+Here is record for GPE code which mainly selected from UVA and reference from internet, all posted code was accepted by judge system:
 
 https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=9
 
