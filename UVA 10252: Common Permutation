@@ -1,0 +1,37 @@
+/* Accepted by zero judge UVA 10252: Common Permutation
+Question:  given 2 strings, find the common subsequences of string and print letter from a-z.
+1. use getline to store string (there maybe empty string from input)
+2. count every letter show on strings
+3. store the common letter to int array
+4. printf all common (multiple) letters out.
+*/
+
+#include <bits/stdc++.h>
+
+using namespace std;
+int main(){
+    string A, B;
+    int countA, countB;
+    char temp;
+    
+    while(getline(cin, A) && getline(cin, B)){
+        countA = countB = 0;
+        int ans[26] = {0};
+        for (size_t i = 0; i < 26; i++)
+        {
+            countA = count(A.begin(), A.end(), 97+i);
+            countB = count(B.begin(), B.end(), 97+i);
+            ans[i] = min(countA, countB);  // common letter in both seq
+            //if (temp < ans[i]) temp = ans[i];
+            if(ans[i] != 0){
+                for (size_t j = 0; j < ans[i]; j++)  // cout multiple char if any
+                {
+                    temp = 97+i;
+                    cout << temp;
+                }
+            }
+        }
+        cout << endl;
+    }
+    return 0;
+}
