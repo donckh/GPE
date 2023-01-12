@@ -1,4 +1,4 @@
-/* Accepted by UVA 10036: Divisibility
+/* Accepted by zero judge UVA 10036: Divisibility
 Question:  given nums N and divisor K, find the combination(+/-) of nums is dividable.
 1. store all nums to array
 2. turn all nums to positive and take the mod of all nums
@@ -6,40 +6,37 @@ Question:  given nums N and divisor K, find the combination(+/-) of nums is divi
 4. check f[N][0] == 1: divisible
 */
 
+
 #include <iostream>
-#include <cstdlib>
-#include <cstring>
-#include <cstdio>
-#include <cmath>
- 
-using namespace std;
- 
-int a[10004];
-int f[10004][104];
- 
-int main()
-{
-	int T,N,K;
-	while ( scanf("%d",&T) != EOF ) 
-	while ( T -- ) {
-		scanf("%d%d",&N,&K);
-		for ( int i = 0 ; i < N ; ++ i )
-			scanf("%d",&a[i]);  //store input nums
-		for ( int i = 0 ; i < N ; ++ i )
-			a[i] = abs(a[i])%K;  //store positive nums and take the mod of num
-		
-		memset( f, 0, sizeof(f) );
-		f[0][0] = 1;
-		for ( int i = 0 ; i < N ; ++ i ){
-            for ( int j = 0 ; j < K ; ++ j ){
-                if ( f[i][j] ) {  //n, k
-                    f[i+1][(j+K+a[i])%K] = 1;  //prevent minus idx at k (f[n][k]): + K
-                    f[i+1][(j+K-a[i])%K] = 1;
+#include <string.h>
+
+
+int  abs_nums[10005];
+bool nums[10005][105];
+int main(){
+    int n, k, t, temp;
+    scanf("%d", &t);
+    while(t--)
+    {
+        scanf("%d %d", &n, &k);
+        memset(nums, 0, sizeof(nums));
+        for(int i=0; i<n; i++){
+            scanf("%d", &abs_nums[i]);
+            abs_nums[i] = (abs_nums[i]%k + k) % k;  // turn all nums to positive(+k) and mod them
+        }
+        
+        nums[0][abs_nums[0]] = 1;
+        for(int i=1; i<n; i++){
+            for (int j = 0; j < k; j++)
+            {
+                if(nums[i-1][j]){
+                    nums[i][(j+abs_nums[i])%k] = 1;  // add num one by one
+                    nums[i][(j+k-abs_nums[i])%k] = 1;  // minus num one by one
                 }
             }
         }
-		if ( f[N][0] ) printf("Divisible\n");
-		else printf("Not divisible\n");
-	}
-	return 0;
+        if (nums[n-1][0]) printf("Divisible\n");  // if divisible, nums[n-1][0] will be 1
+        else printf("Not divisible\n");
+    }
+    return 0;
 }
