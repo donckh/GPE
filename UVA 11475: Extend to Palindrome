@@ -1,0 +1,85 @@
+/* Accepted by (ZeroJudge) UVA 11475: Extend to Palindrome
+Question: make the input string as mirror(make it the same when read from begin to end and from end to begin)
+1. initial string and reverse string
+2. find KMP of string:
+2a. find failure of KMP of reverse string, failure mean when the string not the same, go back to last pattern which match string whether from beginning.
+2b. find the failure of KMP of string.
+2c. finally return pattern location which not mirror.
+3. print string and reverse string(\n).
+*/
+
+// #include <iostream>
+// #include <cstdio>
+// #include <cstring>
+// using namespace std;
+ 
+// #define LEN 100000
+ 
+// int f[LEN+10];
+ 
+// void failure(char *P)
+// {
+//     int i, j;
+//     f[0] = -1;
+//     for(i = 1, j = -1; P[i]; i++)
+//     {
+//         // printf("P[j+1] %d: %c, P[i] %d: %c\n", j, P[j+1], i, P[i]);
+//         while(j >= 0 && P[j+1] != P[i]){  //reset seq quantity
+//             j = f[j];
+//             // printf("IN WHILE: %d\n", j);
+//         }
+//         if(P[j+1] == P[i]){  //find the same char, j mean quantity of same char, 若xyzxyz 對比xyzxyz後綴數目, -1 -1 -1 0 1 2, 代表當對比錯誤時可以在第4個char開始對比
+//             j++;
+//             // printf("j++: %d\n", j);
+//         }
+//         f[i] = j;  //failure: not equal char, save j
+//         // printf("f[i]%d: %d\n", i, j);
+//     }
+// }
+ 
+// int KMP(char *S, char *P)
+// {
+//     int i, j;
+//     failure(P);  //p is reverse of s
+//     for(i = 0, j = -1; S[i]; i++)
+//     {
+//         // printf("KMP: P[j+1] %d: %c, P[i] %d: %c\n", j, P[j+1], i, S[i]);
+//         while(j >= 0 && P[j+1] != S[i]){  //reset
+//             j = f[j]; //-1 also ok, but not KMP anymore; KMP已記錄可以跳過的char數目, 直接在第幾個char開始下個對比
+//             // printf("IN KMP while: %d\n", j);
+//         }
+//         if(P[j+1] == S[i]){  //first char compare to last char, calculate same char quantity
+//             j++;
+//             // printf("KMP j++: %d\n", j);
+//         }
+//     }
+//     // printf("return: %d\n", j);
+//     return j;
+// }
+ 
+// int main()
+// {
+//     char S[LEN+10];
+//     char P[LEN+10];
+//     int i, j;
+//     int len;
+//     int cut;
+//     while(scanf("%s", &S) == 1)
+//     {
+//         len = strlen(S);  // prevent TLE error
+//         // printf("%d\n", len);
+//         for(i = 0, j = len - 1; i <= len - 1; i++, j--)
+//         {
+//             P[i] = S[j];  //assign char from S[j] to P[i], P is reverse of S
+//         }
+//         P[len] = '\0';
+//         cut = KMP(S, P);
+//         printf("%s", S);
+//         for(i = cut + 1; i <= len - 1; i++)
+//             printf("%c", P[i]);
+//         printf("\n");
+//         // printf("%c %c\n", P[0], P[3]);
+//         // printf("%c %c\n", S[0], S[3]);
+//     }
+//     return 0;
+// }
