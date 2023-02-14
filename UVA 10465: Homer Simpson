@@ -1,0 +1,40 @@
+/* Accepted by (ZeroJudge) UVA 10465: Homer Simpson
+Question: find a combination of m, n that waste the less time t.
+1. initial dp with -inf
+2. accumulate m & n in dp.
+3. output the last dp value that waste the less time.
+*/
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <cstdio>
+ 
+using namespace std;
+ 
+int F[10001];
+ 
+int main()
+{
+	int m,n,t,e;
+	while (cin >> m >> n >> t) {
+		for (int i = 1 ; i <= t ; ++ i)  //init, count start from 1
+			F[i] = -1000001;
+		F[0] = 0;
+        for (int i=0; i<t; i++) printf("%d ", F[i]);
+		printf("\n");
+		for (int i = m ; i <= t ; ++ i)
+			if (F[i] < F[i-m]+1)
+				F[i] = F[i-m]+1;  // accumulate m, e.g.: 3 5 8 => 8=5+3
+		for (int i = n ; i <= t ; ++ i)
+			if (F[i] < F[i-n]+1)  //if burger num not max: +1
+				F[i] = F[i-n]+1;  //accumulate n with m
+        for (int i=0; i<t; i++) printf("%d ", F[i]);
+		printf("\n");
+        int e = t;
+		while (F[e] < 0) -- e;  // take the last value from array
+		cout << F[e];
+		if (e == t) cout << endl;
+		else cout << " beer:" << t-e << endl;  //how many times for drinking beer
+	}
+	return 0;
+}
