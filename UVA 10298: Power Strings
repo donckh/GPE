@@ -1,11 +1,11 @@
-/* Accepted by UVA 10298: Power Strings
-Question: find the repeat count of string.
-1. initial vector for recording the previous same subpattern part location.
-2. while the next char not the same-> go to previous pattern to find again.
-3. if it is the same, record+1 in the vector
-4. take the repeat pattern length by total_length - repeat record.
-5. divide sequence length and repeat pattern.
+/* Accepted by (Zero Judge) UVA 10298: Power Strings
+Question: find the common subsequence of string and output number of subsequence to form a string.
+1. initial failure array, store j to failure array for fallback in case subsequence is incorrect
+2. find length of subsequece: pattern
+3. check if string divisible by pattern, if not output 1
+reference: https://knightzone.studio/2018/09/28/3633/uva%EF%BC%9A10298%EF%BC%8Dpower-strings/
 */
+
 #include <iostream>
 #include <string.h>
 #include <vector>
@@ -19,10 +19,15 @@ int main(){
             while(j>=0 && word[j+1]!=word[i]) j=failure[j];  // 3. e.g.: 6th loop[c]: s[4]!=s[6]: j=f[3]=1, s[2]!=s[6]: j=f[1]=-1; while: goto previous repeat pattern (ababab to abab)
             if(word[j+1]==word[i]) ++j;  //2. if char repeat, ++j  e.g.abababcabababc: 2nd loop: s[0]==s[2] ++j, 3rd loop: s[1]==s[3] ++j;
             failure[i]=j;  //1. save the repeat number to failure[i], f[1]=-1, f[2]=0, f[3]=1
-            printf("failure[%d]: %d\n", i, failure[i]);  //failure will increment until last repeat pattern, e.g. 21 length str with 3x7 repeat str, then failure[last] = 14
+            //printf("failure[%d]: %d\n", i, failure[i]);  //failure will increment until last repeat pattern, e.g. 21 length str with 3x7 repeat str, then failure[last] = 14
         }
         int pattern = word.length() - failure[word.length()-1] - 1;  //-1: f+1;  -1: because string start from 0, OR failure start from -1(so - (failure+1))
-        printf("%d\n", word.length()/pattern);  //count repeat pattern by divide in total
+        if(word.length() % pattern == 0){  // prevent wrong pattern found
+            printf("%d\n", (int)word.length() / pattern);  //count repeat pattern by divide in total
+        }
+        else{
+            printf("1\n");
+        }
     }
     return 0;
 }
