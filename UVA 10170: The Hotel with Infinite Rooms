@@ -1,0 +1,23 @@
+/* Accepted by (Zero Judge) UVA 10170: The Hotel with Infinite Rooms
+Question: given a number S that represent S persons stay S days, after S days: S+1 persons stay S+1 days. Find how many persons stay at date D
+1. use stay days to minus persons S and +1 after 1 loop
+
+*/
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	long long s,d;//數字很大用long long 
+	while(cin>>s>>d)//輸入測資 
+	{
+		while(d>0)//d一直減s直到d小於等於0 
+		{		  //這時s就是答案 
+			d=d-s;
+			s++;
+		}
+		cout<<s-1<<endl;//因為d小於0的那次迴圈
+						//s仍會加1所以必須減回來 
+	}
+	return 0;
+}
