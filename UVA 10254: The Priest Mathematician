@@ -1,0 +1,76 @@
+/* Accepted by (Zero Judge) UVA 10254: The Priest Mathematician
+Question: 4 needle move n disks from 1 to another(from small to large disk) need 2^n - 1 movement, add 1 more needle for movement can move efficiently.
+Find the less movement if 1 more needle added.
+Ans:
+1. the role: move k disk to extra needle(by 4 needle), move n-k disk to target needle(by 3 needle), 
+move back k disk to targer needle(by 4 needle).
+2. from 1 get equation: f[n] = min{2*f[k] + 2^(n-k)-1}, 1 <= k < n
+3. find the ans from above equation and find the logic:
+e.g.:
+f[0] = 0
+f[1] = 1 = f[0] + 2^0
+f[2] = 3 = f[1] + 2^1
+f[3] = 5 = f[2] + 2^1
+f[4] = 9 = f[3] + 2^2
+f[5] = 13 = f[4] + 2^2
+f[6] = 17 = f[5] + 2^2
+f[7] = 25 = f[6] + 2^3
+f[8] = 33 = f[7] + 2^3
+f[9] = 41 = f[8] + 2^3
+f[10] = 49 = f[9] + 2^3
+f[11] = 65 = f[9] + 2^4
+...
+4. summrize logic equation: f[n] = f[n-1] + 2^m, which 2^m will repeat m+1 times before m=m+1;
+5. follow 4 to build code.
+reference: http://mobcs.blogspot.com/2015/05/uva-10254-priest-mathematician.html
+*/
+
+#include <stdio.h>
+int bin[150][100] = {};  // binary 2^k table, 100x101>10000: 150
+int dp[10000][100] = {};  // dp table for overall ans, 2^100>=range of int: use big num
+
+void build() {
+    bin[0][0] = 1, dp[1][0] = 1;  //priest num
+    int i, j, k, digit = 0, idx = 2;
+    for(i = 1; i < 150; i++) {  //i: power of 2
+        for(j = 0; j <= digit; j++) 
+            bin[i][j] = bin[i-1][j]*2; //2^k: b[1][0] = b[0][0]*2=2
+        for(j = 0; j <= digit; j++) {
+            if(bin[i][j] >= 10) {  // >=10: save >10's num to j+1
+                bin[i][j+1] += bin[i][j]/10;
+                bin[i][j] %= 10;
+                if( j + 1 >= digit && bin[i][j+1] > 0 ) ++digit;
+            }
+            //if( j + 1 >= digit && bin[i][j+1] > 0 ) ++digit;
+            
+        }
+        // if(bin[i][digit+1]) digit++;  //b[1][1]=0
+        k = i+1;  //k=2 的次數
+        while(k && idx <= 10000) {
+            for(j = 0; j < 99; j++)  
+                dp[idx][j] = dp[idx-1][j]+bin[i][j];  //f[n] = f[n-1] + 2^k; j為每個數位值, idx: dp table, i: power of 2
+                //dp[2][j] = dp[1][j]+b[1][j] = 1+2=3; d[3][j]= d[2][j]+b[1][j]=3+2=5
+            for(j = 0; j < 99; j++) {// >=10: save >10's num to j+1
+                if(dp[idx][j] >= 10) {
+                    dp[idx][j+1] += dp[idx][j]/10;
+                    dp[idx][j] %= 10;
+                }
+            }
+            idx++, k--;
+        }
+    }
+}
+int main() {
+    build();
+    int n, i;
+    while(scanf("%d", &n) == 1) {
+        if(n == 0)
+            printf("0\n");
+        for(i = 99; i >= 0; i--)
+            if(dp[n][i])  //find the first digit at dp[n][i]
+                break;
+        while(i >= 0) printf("%d", dp[n][i]), i--;   //putchar(dp[n][i]+'0'), i--;
+        printf("\n");
+    }
+    return 0;
+}
