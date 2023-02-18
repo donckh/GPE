@@ -1,0 +1,57 @@
+/* Accepted by (Zero Judge) UVA 10336: Rank the Languages
+Question: find language area(up/down/left/right count as same area) and output it by sequence(a-z) if it has the same area. 
+otherwise, output it from max to min area.
+1. initial map and visit for store status
+2. if not visit before, go to DFS, DFS will visit all its neighbour if it has not visit before.
+3. store max area number when a new area find
+reference: https://knightzone.studio/2012/01/18/1346/uva%EF%BC%9A10336%EF%BC%8Drank-the-languages/
+*/
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+using namespace std;
+
+char map[1000][1000] = {0};
+bool visited[1000][1000] = {0};
+
+void DFS( int, int );
+
+int main(){
+  int N, H, W, maxarea;
+  while( scanf( "%d", &N ) != EOF ){
+    getchar(); 
+    for( int i = 1 ; i <= N ; i++ ){
+      scanf( "%d%d", &H, &W );
+      getchar();  // scanf with getchar to prevent input error, getchar: get "\n"
+      memset( visited, 0, sizeof(visited) );
+      int letters[30] = {0};
+      maxarea = 0;
+      for( int j = 1 ; j <= H ; j++ ){
+        for( int k = 1 ; k <= W ; k++ )
+          scanf( "%c", &map[j][k] );
+        getchar();  //get "\n"
+      }
+      for( int j = 1 ; j <= H ; j++ )
+        for( int k = 1 ; k <= W ; k++ ){
+          if( !visited[j][k] ){
+            maxarea = max( ++letters[map[j][k]-'a'], maxarea );  //this letter area++
+            DFS( j, k );  // find and visit same char neighbour
+          }
+        }
+      printf( "World #%d\n", i );
+      for( int j = maxarea ; j >= 1 ; j-- )  //print from the most area of char to the less
+        for( int k = 0 ; k < 26 ; k++ )
+          if( letters[k] == j ) //how many area
+            printf( "%c: %d\n", 'a'+k, j );
+    }
+  }
+  return 0;
+}
+
+void DFS( int x, int y ){
+  visited[x][y] = 1;
+  if( map[x+1][y] == map[x][y] && !visited[x+1][y] ) DFS(x+1,y);  //check neighbour is same or not
+  if( map[x-1][y] == map[x][y] && !visited[x-1][y] ) DFS(x-1,y);
+  if( map[x][y+1] == map[x][y] && !visited[x][y+1] ) DFS(x,y+1);
+  if( map[x][y-1] == map[x][y] && !visited[x][y-1] ) DFS(x,y-1);
+}
