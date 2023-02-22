@@ -1,8 +1,11 @@
 /* Accept by UVA 10295 	Hay Points
 Question: given point of each word, calculate the total points of m line of sentences
 1. cin word of credit and test case num
-2. input test case and check "." and any credit of word
-3. output result
+2. make map table for word and corresponding points
+3. cin string word one by one and check if "."
+a. if ".", testcase--, output value and reset value
+b. else, find string in MAP table or not, if yes, value += point
+
 ### use cin for string is better than scanf char array
 */
 #include <iostream>
