@@ -1,0 +1,67 @@
+/* Accept by UVA 1556: Disk Tree
+Question: Input multiple directory paths, output it by directory sequence.
+1. define a struct with table, insert, put, etc.
+2. init tree.
+3. cin string and add additional '\\'
+4. use insert function to get every directory and linked to subdirectory
+5. use put function to print out all directory (deep first).
+reference: https://blog.csdn.net/keshuai19940722/article/details/39013651
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+const int maxn = 50005;
+struct Disk{
+    int subdir;
+    map <string, int> table[maxn];  //create maxn mapping table, which every g(e.g.: g[0]) contain a <string, int> table
+    void init();
+    void insert(string s);
+    void put(int dir, int space);
+}tree;
+
+int main(){
+    int n;
+    string line;
+    while(cin>>n && n){
+        tree.init();
+        for(int i=0; i<n; i++){
+            cin>>line;
+            line += '\\';  //add \ to the end
+            tree.insert(line);
+        }
+        tree.put(0,0); 
+        cout << endl; 
+    }
+    return 0;
+}
+
+void Disk::init(){
+    subdir=1;
+    table[0].clear();
+}
+
+void Disk::insert(string s){
+    int dir = 0;  //dir represent which directory is now on, (e.g.: 1st\2nd\3rd\). start at 1st, and sz is next directory 2nd
+    string word="";
+    for(int i=0; i<s.length(); i++){
+        if(s[i]=='\\'){
+            if(!table[dir].count(word)){  // find word either in mapping table or not, if yes count>0, if not execute below code
+                table[subdir].clear();
+                table[dir][word] = subdir++;  // under dir directory table, add word in it, e.g.: [word] = subdir and subdir=subdir+1
+            }
+            dir = table[dir][word];  // dir = subdir-1, and use as next mapping table number for connecting both mapping table. e.g.: table[0][a]=1, table[1][b]=2 => a\b
+            word = "";
+        }
+        else{
+            word+=s[i];
+        }
+    }
+}
+
+void Disk::put(int dir, int space){
+    for(auto iter=table[dir].begin(); iter!=table[dir].end(); iter++){  // run 1 of maxn table from begin to end, 
+        for(int j=0; j<space; j++) cout<<" ";
+        cout << iter->first << endl;  //cout: word
+        put(iter->second, space+1);  //to next mapping table(mean enter to sub tree), here is sz which added in insert function.
+    }
+}
