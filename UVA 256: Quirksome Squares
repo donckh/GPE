@@ -7,26 +7,28 @@ Question: find all num of digit n (including less than n) that (x+y)^2=xy
 *table store in array, k is digits of one num, 
 *%d: show int, %0*d, num: compensate 0 until digit = num
 */
+
+
 #include <iostream>
 using namespace std;
 int main(){
-    int dp[4][50], ans_index[4]={0};
-    for(int i=0; i<10000;++i){
+    int qs[4][50], idx[4]={0};  //digit idx 0~3 have there own idx number
+    for(int i=0;i<10000;++i){  // 2,4,6,8 are combination of i and j, so i~ 4 digits, j~ 4 digits
         for(int j=0;j<10000;++j){
-            int digit_len = 10;
-            for(int k=0; k<4;++k, digit_len *=10){
-                if ((i+j)*(i+j)==i*digit_len+j && i/digit_len==0 && j/digit_len==0){
-                    dp[k][ans_index[k]++] = i* digit_len +j;
-                }
+            int digit=10;
+            for(int k=0;k<4 ;++k, digit*=10){  // start digit from 2 to 8, means 0~3
+                int result = i*digit+j;
+                if((i+j)*(i+j)==result && i/digit==0 && j/digit==0)  // for digit 2, only consider i and j have 1 digit, that is total 2 digits.
+                    qs[k][idx[k]++] = result;  //store result to dp table
             }
         }
     }
-    int num, digit;
-    while(scanf("%d", &num)!=EOF){
-        digit = num/2-1;
-        for(int i=0; i<ans_index[digit]; ++i){
-            printf("%0*d\n", num, dp[digit][i]);
-        }
+    int n, dig;
+    while(scanf("%d",&n)!=EOF){
+        dig = n/2-1;
+        for(int i=0; i<idx[dig];++i){
+            printf("%0*d\n", n, qs[dig][i]);  // compensate 0 as requested
+        } 
     }
     return 0;
 }
