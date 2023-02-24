@@ -24,11 +24,11 @@ int main(){
             vector<int> connect(computer+1);
             for (int i=1; i<=computer;++i) connect[i]=i;            
 
-            cin.ignore();
+            cin.ignore();  //ignore cin "\n"
             while(getline(cin, line) && line!=""){
                 stringstream ss(line);
                 ss >> req >> c1 >> c2;
-                int group1=connect[c1], group2=connect[c2];
+                int group1=connect[c1], group2=connect[c2];  //use group1, group2 save current group, prevent use connect[c1] directly, because connect will keep changing
                 if (req=="c")
                 {
                     for(int i=1; i<=computer;++i){
