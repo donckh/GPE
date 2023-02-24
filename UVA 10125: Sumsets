@@ -32,7 +32,7 @@ int main(){
         {
             for (a = 0; a < count && !found; a++)
             {
-                if(a==d) continue;
+                if(a==d) continue;  //distinct element, if a==d, skip
                 // sum_a = seq[a];
                 for (b = a+1; b < count && !found; b++)
                 {
@@ -41,7 +41,7 @@ int main(){
                     for (c = b+1; c < count && !found; c++)
                     {
                         if (c==d) continue;
-                        if (seq[a] + seq[b] + seq[c]==seq[d])
+                        if (seq[a] + seq[b] + seq[c]==seq[d]) // after found end of d,a,b,c loop: d--, a++, b++, c++.
                         {
                             found = true;
                             //cout << seq[d] << endl;
@@ -52,7 +52,7 @@ int main(){
             }
         }
         if(!found) cout << "no solution" << endl;
-        else cout << seq[d+1] << endl;
+        else cout << seq[d+1] << endl;  //finally output d+1 as finally loop of d-- execute when found
         found = false;
     }
     return 0;
