@@ -1,0 +1,29 @@
+/* Accepted by UVA 10209: Is This Integration
+Question: according provided picture, calculate the result of 3 different area
+1. draw 2 line to make a triangle for later calculation.
+2. 1/4 area of grid: square(a*a) - 2 sector(2 * pi*a^2/12) - triangle(a * sqrt(3)/2a / 2)
+3. 1/4 area of dot: square(a*a) - 1/4 circle(pi*a^2/4) - 2 *1/4 area of grid
+4. area of dash: square(a*a) - area of grid - area of dot
+5. output result as request format, .3: 3 position after dot, lf: double.
+reference: 
+https://a7069810.pixnet.net/blog/post/395133313-%5Buva10209%5D-is-this-integration%3F
+https://knightzone.studio/2011/12/01/1251/uva%EF%BC%9A10209%EF%BC%8Dis-this-integration/
+*/
+
+#include<iostream>
+#include<cstdio>
+#include<cmath>
+#define PI (2.0*acos(0.0))
+using namespace std;
+
+int main(){
+  double a;
+  while( scanf( "%lf", &a ) != EOF ){
+    double x, y, z;
+    z = a*a - 2*a*a*PI/12.0 - a*a*(sqrt(3.0)/2.0)/2.0;
+    y = a*a - a*a*PI/4.0 - 2.0*z;
+    x = a*a - 4.0*y - 4.0*z;
+    printf( "%.3lf %.3lf %.3lf\n", x, 4*y, 4*z );  //lf:double
+  }
+  return 0;
+}
