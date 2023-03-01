@@ -1,0 +1,28 @@
+/* Accepted by (Zero Judge) UVA 350: Generate random numbers
+Question: input a 4 digits number, utilize square root of number and take middle 4 digit number to generate next number until generate the same number.
+count how many number generated before repeat.
+1. initial 4 digits array and count
+2. when a new number generate, array=1
+3. /100 %10000 to get 4 digits number
+4. output 4 count
+reference: https://github.com/morris821028/UVa/blob/master/volume116/11634%20-%20Generate%20random%20numbers.cpp
+*/
+
+#include <stdio.h>
+
+int main() {
+    int n, cnt;
+    while(scanf("%d", &n) == 1 && n) {
+        char m[10000] = {};  //intial array
+        cnt = 0;
+        while(m[n] == 0) {  // check if it generate before
+            cnt++;  //count + 1 if it is a new random number
+            m[n] = 1;  // change new number to 1
+            n = n*n;  
+            n /= 100;  // take the middle number of n by /100 and %1000
+            n %= 10000;
+        }
+        printf("%d\n", cnt);  //print out cnt
+    }
+    return 0;
+}
