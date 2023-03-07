@@ -87,6 +87,21 @@ The Trip
 
 
 
+1/3/2023:
+
+Prefix Expression evaluation
+
+Show the sequence
+
+Line overlap problem
+
+Longest Paths (pq)
+
+Zipf's Law
+
+Center of Masses
+
+
 GPE helper(for history question records):
 
 https://gpe-helper.setsal.dev/problems
