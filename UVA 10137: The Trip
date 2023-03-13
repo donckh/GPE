@@ -1,0 +1,41 @@
+/* Accept by UVA 10137: The Trip 
+Question: find min amount to be exchanged between students in order to equalize the student's cost
+1. find average cost (need to round up)
+2. find the upper largest cost and the lower largest cost.
+3. output min largest cost 
+Reference: https://knightzone.studio/2012/11/10/1984/uva%EF%BC%9A10137%EF%BC%8Dthe-trip/
+
+Remark:
+1. average = ((int)(average * 100/n + 0.5)) / 100.0;
+2. if(average < pay[i]) high_exchange += pay[i] - average;
+3. if(average > pay[i]) low_exchange += average - pay[i];
+4. if(high_exchange < low_exchange) printf("$%.2lf\n", high_exchange)
+*/
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+int main(){ 
+  int n;
+  double pay[1005], average, high_exchange, low_exchange;
+
+  while( scanf( "%d", &n ) != EOF && n ){
+    average = 0;
+    for( int i = 0 ; i < n ; i++ ){
+      scanf( "%lf", &pay[i] );
+      average += pay[i];
+    }
+
+    average = ((double)(int)(average*100/n+0.5))/100;  //round up average
+
+    high_exchange = 0;
+    low_exchange = 0;
+
+    for( int i = 0 ; i < n ; i++ ){  // acummulate student cost
+      if( average < pay[i] ) high_exchange += ( pay[i] - average );
+      if( average > pay[i] ) low_exchange += ( average - pay[i] );
+    }
+    printf( "$%.2lf\n", ( high_exchange < low_exchange )? high_exchange : low_exchange );  //output min exchange
+  }
+  return 0;
+}
